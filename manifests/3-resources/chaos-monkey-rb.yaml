@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: chaos-monkey-rb
+  namespace: workloads
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: chaos-monkey-role
+subjects:
+- kind: ServiceAccount
+  namespace: workloads
+  name: chaos-monkey-sa

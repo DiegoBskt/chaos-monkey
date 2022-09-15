@@ -1,0 +1,19 @@
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: pod-chaos-monkey
+spec:
+  schedule: "*/5 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: chaos-monkey
+            image: diegobskt/chaos-monkey-python:1.0
+            imagePullPolicy: IfNotPresent
+          restartPolicy: OnFailure
+          serviceAccount: chaos-monkey-sa
+          serviceAccountName: chaos-monkey-sa
+          automountServiceAccountToken: true
