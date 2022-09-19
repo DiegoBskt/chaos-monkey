@@ -19,7 +19,7 @@ Create the ServiceAccount with the Role & RoleBinding
 $ kubectl apply -f manifests/2-serviceaccount/
 ```
 
-Create the Cronjov with the pods to test it.
+Create the Cronjob with the pods to test it.
 
 ```bash
 $ kubectl apply -f manifests/3-resources/
