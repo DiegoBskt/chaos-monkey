@@ -1,39 +1,41 @@
 from kubernetes import client, config
 import random
-import re
 
-namespace = "workloads"
-python_pod_name = "pod-chaos-monkey-"
+NAMESPACE = "workloads"
+POD_PREFIX = "pod-chaos-monkey-"
 
-try:
-    config.load_kube_config()
-    print("load_kube_config")
-except:
-    config.load_incluster_config()
-    print("load_incluster_config")
+def main():
+    try:
+        config.load_kube_config()
+        print("load_kube_config")
+    except config.config_exception.ConfigException:
+        config.load_incluster_config()
+        print("load_incluster_config")
 
+    k8s = client.CoreV1Api()
 
-v1 = client.CoreV1Api()
+    pods = k8s.list_namespaced_pod(namespace=NAMESPACE)
+    pod_names = []
 
+    print("List of pods:")
+    for pod in pods.items:
+        if not pod.metadata.name.startswith(POD_PREFIX):
+            pod_names.append(pod.metadata.name)
+            print(f"{pod.metadata.namespace}\t{pod.metadata.name}")
 
-ret = v1.list_namespaced_pod(namespace=namespace)
-pods_names = []
+    print(pod_names)
 
-print("List of pods:")
-for i in ret.items:
-    if not i.metadata.name.startswith(python_pod_name):
-        pods_names.append(i.metadata.name)
-        print("%s\t%s" % (i.metadata.namespace, i.metadata.name))
+    if not pod_names:
+        print("No more pods to delete")
+    else:
+        random_pod_name = random.choice(pod_names)
+        print("Random pod:")
+        print(random_pod_name)
 
-print(pods_names)
+        print("Deleting pod...")
+        with client.V1DeleteOptions() as delete_options:
+            delete_response = k8s.delete_namespaced_pod(namespace=NAMESPACE, name=random_pod_name, body=delete_options)
+        print(f"Pod {random_pod_name} deleted!")
 
-if not pods_names:
-    print("No more pods to delete")
-else:
-    random_pod = random.choice(pods_names)
-    print("Random pod:")
-    print(random_pod)
-
-    print("Deleting pod...")
-    ret = v1.delete_namespaced_pod(namespace=namespace,name=random_pod)
-    print("Pod " + random_pod + " deleted!") 
+if __name__ == "__main__":
+    main()
