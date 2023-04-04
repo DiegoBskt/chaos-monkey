@@ -4,8 +4,8 @@
 [![CodeQL](https://github.com/DiegoBskt/chaos-monkey/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/DiegoBskt/chaos-monkey/actions/workflows/github-code-scanning/codeql)
 
 This program runs inside the cluster, interacts with the kube
-apiserver, and deletes one pod at random in the 'workloads' namespace on a schedule. The
-program could be known as ‘PodChaosMonkey’.
+apiserver, and deletes one pod at random in the `workloads` namespace on a schedule. The
+program could be known as `PodChaosMonkey`.
 
 
 ## ✈️ QuickStart
@@ -27,4 +27,6 @@ Create the Cronjob with the pods to test it.
 $ kubectl apply -f manifests/3-resources/
 ```
 
+## License
 
+This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
