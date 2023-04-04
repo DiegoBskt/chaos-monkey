@@ -3,9 +3,7 @@
 
 [![CodeQL](https://github.com/DiegoBskt/chaos-monkey/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/DiegoBskt/chaos-monkey/actions/workflows/github-code-scanning/codeql)
 
-This program runs inside the cluster, interacts with the kube
-apiserver, and deletes one pod at random in the `workloads` namespace on a schedule. The
-program could be known as `PodChaosMonkey`.
+`PodChaosMonkey` is a program designed to run inside a cluster, interact with the kube-apiserver, and delete a random pod in the `workloads` namespace based on a schedule. The purpose of this program is to test the resilience of the system and to ensure that the system can recover from unexpected failures.
 
 
 ## ✈️ QuickStart
